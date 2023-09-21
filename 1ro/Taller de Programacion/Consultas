@@ -1,0 +1,2 @@
+1 - A la hora de encontrar un valor en un vector, conviene recorrerlo con un for y devolver si esta o no dentro del mismo con un booleano, o recorrerlo con un while y
+devolver el booleano junto con la posicion que vamos incrementando a medida que se ejecuta el while.
