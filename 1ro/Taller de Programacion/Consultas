@@ -1,2 +1,3 @@
-1 - A la hora de encontrar un valor en un vector, conviene recorrerlo con un for y devolver si esta o no dentro del mismo con un booleano, o recorrerlo con un while y
-devolver el booleano junto con la posicion que vamos incrementando a medida que se ejecuta el while.
+1 - En el punto 5 se pide un vector de N habitaciones, es correcto que, luego de crear el vector se instancien habitaciones con el constructor nulo de la clase habitacion para
+setear cada una como desocupada?.
+
