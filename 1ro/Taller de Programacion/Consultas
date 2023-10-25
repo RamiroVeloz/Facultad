@@ -1,4 +1,5 @@
 o Al utilizar variables que acumulen, ya sean flores o papeles, esta bien que conserven como valor lo ultimo que acumularon, o se deben igualar en 0?
-
+o Se debe preguntar con un Si cuando hay que recolectar en alguna esquina cualquier item, o se debe usar directamente el mientras?
+o El codigo influye en la velocidad de los robots? Es necesario realizar un codigo que permita que los robots se muevan mas rapido o no?
 
 
