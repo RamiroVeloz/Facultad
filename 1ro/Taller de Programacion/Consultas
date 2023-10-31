@@ -1,3 +1,5 @@
-1 - En el punto 5 se pide un vector de N habitaciones, es correcto que, luego de crear el vector se instancien habitaciones con el constructor nulo de la clase habitacion para
-setear cada una como desocupada?.
+o Al utilizar variables que acumulen, ya sean flores o papeles, esta bien que conserven como valor lo ultimo que acumularon, o se deben igualar en 0?
+o Se debe preguntar con un Si cuando hay que recolectar en alguna esquina cualquier item, o se debe usar directamente el mientras?
+o El codigo influye en la velocidad de los robots? Es necesario realizar un codigo que permita que los robots se muevan mas rapido o no?
+
 
