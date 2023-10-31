@@ -46,37 +46,43 @@ areas
   ab1 : AreaP (5,1,5,10)
   ab2 : AreaP (5,11,5,20)
 robots
-  robot primeros
+  robot a1
   variables
-    cantFlores,cantPapeles:numero
+    cantPapeles:numero
   comenzar
-    cantFlores:= 0
     cantPapeles := 0
-    si (PosAv = 1 )
-      trayectoPapeles(cantPapeles)
-      EnviarMensaje(cantPapeles,a2)
-    sino
-      si (PosAv = 5)
-        trayectoFlores(cantFlores)
-        EnviarMensaje(cantFlores,b2)
+    trayectoPapeles(cantPapeles)
+    EnviarMensaje(cantPapeles,a2)
   fin
-  robot segundos
+  robot a2
   variables
-    cantFlores,cantPapeles : numero
+    cantPapeles : numero
   comenzar
-    si (PosAv = 1 )
-      RecibirMensaje (cantPapeles,a1)
-      trayectoPapeles(cantPapeles)
-      Informar(cantPapeles)
-    sino
-      si (PosAv = 5)
-        RecibirMensaje (cantFlores, b1)
-        trayectoFlores (cantFlores)
-        Informar(cantFlores)
+    RecibirMensaje (cantPapeles,a1)
+    trayectoPapeles(cantPapeles)
+    Informar(cantPapeles)
+  fin
+  robot b1
+  variables
+    cantFlores : numero
+  comenzar
+    cantFlores := 0
+    trayectoFlores(cantFlores)
+    EnviarMensaje(cantFlores,b2)
+  fin
+  robot b2
+  variables
+    cantFlores:numero
+  comenzar
+    RecibirMensaje(cantFlores,b1)
+    trayectoFlores(cantFlores)
+    Informar(cantFlores)
   fin
 variables
-  a1,b1 : primeros
-  a2,b2 : segundos
+  a1:a1
+  a2 : a2
+  b1: b1
+  b2 : b2
 comenzar
   AsignarArea(a1,aa1)
   AsignarArea(a2,aa2)
@@ -87,7 +93,6 @@ comenzar
   Iniciar(b1,5,1)
   Iniciar(b2,5,11)
 fin
-
 b. Modifique el programa anterior para que cada equipo repita el recorrido con las
 siguientes 20 esquinas de sus correspondientes calles.
 
@@ -118,77 +123,67 @@ procesos
       mover
   fin
 areas
-  a1a1 : AreaP (1,1,1,10)
-  a2a1 : AreaP (1,21,1,30)
-  a1a2 : AreaP (1,11,1,20)
-  a2a2 : AreaP (1,31,1,40)
-  a1b1 : AreaP (5,1,5,10)
-  a2b1 : AreaP (5,21,5,30)
-  a1b2 : AreaP (5,11,5,20)
-  a2b2 : AreaP (5,31,5,40)
+  areaPapeleros : AreaPC(1,1,1,80)
+  areaFloreros : AreaPC (5,1,5,80)
 robots
-  robot primeros
+  robot a1
   variables
-    cantFlores,cantPapeles:numero
+    cantPapeles:numero
   comenzar
-    cantFlores:= 0
     cantPapeles := 0
-    si (PosAv = 1 )
-      trayectoPapeles(cantPapeles)
-      EnviarMensaje(cantPapeles,a2)
-    sino
-      si (PosAv = 5)
-        trayectoFlores(cantFlores)
-        EnviarMensaje(cantFlores,b2)
-    si (PosAv = 1)
-      RecibirMensaje (cantPapeles,a2)
-      Pos(PosAv, PosCa + 11)
-      trayectoPapeles(cantPapeles)
-      EnviarMensaje(cantPapeles,a2)
-    sino
-      si (PosAv = 5)
-        RecibirMensaje(cantFlores,b2)
-        Pos(PosAv, PosCa + 11)
-        trayectoFlores (cantFlores)
-        EnviarMensaje(cantFlores,b2)
+    trayectoPapeles(cantPapeles)
+    EnviarMensaje(cantPapeles,a2)
+    RecibirMensaje(cantPapeles,a2)
+    Pos(PosAv, PosCa + 11)
+    trayectoPapeles(cantPapeles)
+    EnviarMensaje(cantPapeles,a2)
   fin
-  robot segundos
+  robot a2
   variables
-    cantFlores,cantPapeles : numero
+    cantPapeles : numero
   comenzar
-    si (PosAv = 1 )
-      RecibirMensaje (cantPapeles,a1)
-      trayectoPapeles(cantPapeles)
-      EnviarMensaje(cantPapeles,a1)
-    sino
-      si (PosAv = 5)
-        RecibirMensaje (cantFlores, b1)
-        trayectoFlores (cantFlores)
-        EnviarMensaje(cantFlores,b1)
-    si (PosAv = 1)
-      RecibirMensaje(cantPapeles,a1)
-      Pos(PosAv,PosCa + 11)
-      trayectoPapeles(cantPapeles)
-      Informar(cantPapeles)
-    sino
-      si (PosAv = 5)
-        RecibirMensaje(cantPapeles,b1)
-        Pos(PosAv,PosCa + 11)
-        trayectoFlores (cantFlores)
-        Informar(cantFlores)
+    RecibirMensaje (cantPapeles,a1)
+    trayectoPapeles(cantPapeles)
+    EnviarMensaje(cantPapeles,a1)
+    RecibirMensaje(cantPapeles,a1)
+    Pos(PosAv, PosCa + 11)
+    trayectoPapeles(cantPapeles)
+    Informar(cantPapeles)
+  fin
+  robot b1
+  variables
+    cantFlores : numero
+  comenzar
+    cantFlores := 0
+    trayectoFlores(cantFlores)
+    EnviarMensaje(cantFlores,b2)
+    RecibirMensaje(cantFlores, b2)
+    Pos(PosAv, PosCa + 11)
+    trayectoFlores(cantFlores)
+    EnviarMensaje(cantFlores,b2)
+  fin
+  robot b2
+  variables
+    cantFlores:numero
+  comenzar
+    RecibirMensaje(cantFlores,b1)
+    trayectoFlores(cantFlores)
+    EnviarMensaje(cantFlores,b1)
+    RecibirMensaje(cantFlores,b1)
+    Pos(PosAv, PosCa + 11)
+    trayectoFlores(cantFlores)
+    Informar(cantFlores)
   fin
 variables
-  a1,b1 : primeros
-  a2,b2 : segundos
+  a1:a1
+  a2 : a2
+  b1: b1
+  b2 : b2
 comenzar
-  AsignarArea(a1,a1a1)
-  AsignarArea(a1,a2a1)
-  AsignarArea(a2,a1a2)
-  AsignarArea(a2,a2a2)
-  AsignarArea(b1,a1b1)
-  AsignarArea(b1,a2b1)
-  AsignarArea(b2,a1b2)
-  AsignarArea(b2,a2b2)
+  AsignarArea(a1,areaPapeleros)
+  AsignarArea(a2,areaPapeleros)
+  AsignarArea(b1,areaFloreros)
+  AsignarArea(b2,areaFloreros)
   Iniciar(a1,1,1)
   Iniciar(a2,1,11)
   Iniciar(b1,5,1)
