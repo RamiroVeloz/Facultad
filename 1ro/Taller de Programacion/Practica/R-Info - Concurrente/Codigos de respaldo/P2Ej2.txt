@@ -1,0 +1,106 @@
+2. Realice un programa en el que 3 robots realizan una escalera de 4 escalones cada uno.
+Todos los escalones tienen un ancho fijo de 1, y un alto aleatorio entre 1 y 5.
+
+Al finalizar el recorrido, cada robot deberá enviar al robot jefe la cantidad de escalones que tenían
+más flores que papeles.
+
+Una vez que los tres robots finalizaron, el robot jefe deberá informar la suma de las cantidades enviadas por los 3 robots.
+
+○ El robot jefe inicia en la esquina (1,1)
+○ El robot 1 inicia en la esquina (2,1)
+○ El robot 2 inicia en la esquina (7,1)
+○ El robot 3 inicia en la esquina (12,1)
+
+programa p2ej2
+procesos
+  proceso acomodar
+  comenzar
+    repetir 3
+      derecha
+  fin
+  proceso depositarTodo
+  comenzar
+    mientras (HayFlorEnLaBolsa)
+      depositarFlor
+    mientras(HayPapelEnLaBolsa)
+      depositarPapel
+  fin
+  proceso recolectarTodo (ES cantFlores:numero ; ES cantPapeles:numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      cantFlores := cantFlores + 1
+    mientras (HayPapelEnLaEsquina)
+      tomarPapel
+      cantPapeles := cantPapeles + 1
+    depositarTodo
+  fin
+  proceso realizarEscalon (ES cantEsc : numero)
+  variables
+    esc:numero
+    cantFlores,cantPapeles:numero
+  comenzar
+    repetir 4
+      cantFlores := 0
+      cantPapeles := 0
+      Random(esc,1,5)
+      repetir esc
+        recolectarTodo(cantFlores,cantPapeles)
+        mover
+      recolectarTodo(cantFlores,cantPapeles)
+      derecha
+      mover
+      recolectarTodo(cantFlores,cantPapeles)
+      si (cantFlores > cantPapeles)
+        cantEsc:= cantEsc + 1
+      acomodar
+  fin
+areas
+  ciudad : AreaC (1,1,100,100)
+robots
+  robot fiscalizador
+  variables
+    total,cant,id:numero
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+    total := 0
+    repetir 3
+      RecibirMensaje(id, *)
+      si (id = 1)
+        RecibirMensaje(cant,r1)
+        total := total + cant
+      sino
+        si (id = 2)
+          RecibirMensaje(cant,r2)
+          total := total + cant
+        sino
+          si (id = 3)
+            RecibirMensaje(cant,r3)
+            total := total + cant
+    Informar(total)
+  fin
+  robot escalonero
+  variables
+    id,cantEsc:numero
+  comenzar
+    RecibirMensaje(id,fiscal)
+    cantEsc := 0
+    realizarEscalon(cantEsc)
+    EnviarMensaje(id,fiscal)
+    EnviarMensaje(cantEsc,fiscal)
+  fin
+variables
+  fiscal : fiscalizador
+  r1,r2,r3 : escalonero
+comenzar
+  AsignarArea (fiscal,ciudad)
+  AsignarArea (r1,ciudad)
+  AsignarArea (r2,ciudad)
+  AsignarArea (r3,ciudad)
+  Iniciar ( fiscal,1,1)
+  Iniciar (r1,2,1)
+  Iniciar(r2,7,1)
+  Iniciar(r3,12,1)
+fin

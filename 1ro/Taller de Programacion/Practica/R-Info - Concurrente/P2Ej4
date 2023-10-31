@@ -1,0 +1,10 @@
+programa p2ej4
+procesos
+  
+areas
+  cuadrante : AreaPC (25,25,75,75)
+  areaFiscalizador : AreaP (1,1,1,1)
+robots
+variables
+comenzar
+fin

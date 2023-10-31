@@ -90,6 +90,7 @@ public class Estacionamiento {
         int y = 0;
         boolean esta = false;
         while ((x < this.pisosBase)&&(esta == false)){
+            y = 0;
             while ((y < this.plazasBase)&&(esta == false)){
                 if ((this.estacionamientos[x][y] != null)&&(this.estacionamientos[x][y].getPatente().equals(p))){
                         esta = true;
@@ -98,8 +99,8 @@ public class Estacionamiento {
                     y++;
                 }
             }
-            if (esta == false) {x++;}
-            y = 0;
+            x++;
+            
         }
         if (esta){
             return ("El auto se encuentra en el piso " + (x) + " plaza " + (y+1));

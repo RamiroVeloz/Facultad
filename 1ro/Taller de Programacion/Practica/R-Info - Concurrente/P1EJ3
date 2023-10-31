@@ -1,0 +1,68 @@
+programa p1ej3
+procesos
+  proceso depositar
+  comenzar
+    mientras(HayPapelEnLaBolsa)
+      depositarPapel
+    mientras(HayFlorEnLaBolsa)
+      depositarFlor  
+  fin
+  proceso recolectar (ES cantPapeles:numero; ES cantFlores:numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      cantPapeles:= cantPapeles + 1
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      cantFlores := cantFlores + 1
+    depositar
+  fin
+  proceso recorrido (E inc:numero; ES cantPapeles:numero; ES cantFlores:numero)
+  comenzar
+    repetir inc
+      recolectar(cantPapeles,cantFlores)
+      mover
+    derecha
+    repetir inc
+      recolectar(cantPapeles,cantFlores)
+      mover
+  fin
+  proceso acomodar
+  comenzar
+    repetir 3
+      derecha
+  fin
+  proceso realizarEscalon
+  variables
+    inc,cantEscalones:numero
+    cantFlores,cantPapeles : numero
+  comenzar
+    inc := 1
+    cantEscalones := 0
+    repetir 4
+      cantPapeles := 0
+      cantFlores := 0
+      recorrido(inc,cantPapeles,cantFlores)
+      si (cantFlores + 1 = cantPapeles)
+        cantEscalones := cantEscalones + 1
+      inc := inc + 1
+      acomodar
+    Informar(cantEscalones)
+  fin
+areas
+  ciudad : AreaC (1,1,100,100)
+robots
+  robot rec1
+  comenzar
+    realizarEscalon
+  fin
+variables
+  r1,r2,r3 : rec1
+comenzar
+  AsignarArea(r1,ciudad)
+  AsignarArea(r2,ciudad)
+  AsignarArea(r3,ciudad)
+  Iniciar(r1,12,14)
+  Iniciar(r2,17,10)
+  Iniciar(r3,22,6)
+fin
