@@ -14,7 +14,7 @@ esquinas (25,1) (30,1) (35,1) y (40,1) respectivamente
 
 programa p2ej4
 procesos
-  proceso activarRobot
+  proceso activarRobots
   variables
     id:numero
   comenzar
@@ -32,6 +32,13 @@ procesos
             si (id = 4)
               EnviarMensaje(V,r4)
   fin
+  proceso desactivarRobots
+  comenzar
+    EnviarMensaje(F,r1)
+    EnviarMensaje(F,r2)
+    EnviarMensaje(F,r3)
+    EnviarMensaje(F,r4)
+  fin
   proceso recolectarTodo (ES total:numero)
   comenzar
     mientras(HayFlorEnLaEsquina)
@@ -43,7 +50,7 @@ procesos
   fin
 areas
   af : AreaP (1,1,1,1)
-  cuadrante (25,25,75,75)
+  cuadrante : AreaC (25,25,75,75)
 robots
   robot fiscalizador
   variables
@@ -54,17 +61,25 @@ robots
     EnviarMensaje(3,r3)
     EnviarMensaje(4,r4)
     activarRobots
+    desactivarRobots
   fin
   robot recolector
   variables
     id,total:numero
-    av,ca:numero
+    av,ai,ca,ci:numero
+    activo: boolean
   comenzar
+    ai := PosAv
+    ci := PosCa
     RecibirMensaje(id,fiscal)
-    Random(av,25,75)
-    Random(ca,25,75)
-    Pos(av,ca)
-    recolectarTodo(total)
+    RecibirMensaje(activo,fiscal)
+    mientras(activo)
+      Random(av,25,75)
+      Random(ca,25,75)
+      Pos(av,ca)
+      recolectarTodo(total)
+      Pos(ai,ci)
+      RecibirMensaje(activo,fiscal)
   fin
 variables
   fiscal : fiscalizador
