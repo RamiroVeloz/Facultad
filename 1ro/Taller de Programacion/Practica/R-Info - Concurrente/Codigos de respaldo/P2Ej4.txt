@@ -14,6 +14,16 @@ esquinas (25,1) (30,1) (35,1) y (40,1) respectivamente
 
 programa p2ej4
 procesos
+  proceso calcularMaximo (ES ganador:numero; ES id:numero ; ES cant:numero; ES max:numero)
+  comenzar
+    si (cant > act)
+      act := cant
+      ganador:= id
+  fin
+  proceso confirmarGanador (E ganador:numero ; E max:numero)
+  comenzar
+    si ( ganador = 1 )
+  fin
   proceso activarRobots
   variables
     id:numero
@@ -60,7 +70,7 @@ areas
 robots
   robot fiscalizador
   variables
-    id,ganador,total:numero
+    id,ganador,total,cant,max:numero
   comenzar
     EnviarMensaje (1,r1)
     EnviarMensaje(2,r2)
@@ -68,6 +78,20 @@ robots
     EnviarMensaje(4,r4)
     activarRobots
     desactivarRobots
+    repetir 4
+      RecibirMensaje(id,*)
+      si (id = 1)
+        RecibirMensaje(cant,r1)
+      sino
+        si (id = 2)
+          RecibirMensaje(cant,r2)
+        sino
+          si (id = 3)
+            RecibirMensaje(cant,r3)
+          sino
+            RecibirMensaje(cant,r4)
+      calcularMaximo(ganador,id,cant,max)
+    confirmarGanador(ganador,max)
   fin
   robot recolector
   variables
@@ -87,6 +111,9 @@ robots
       Pos(ai,ci)
       EnviarMensaje(V,fiscal)
       RecibirMensaje(activo,fiscal)
+    EnviarMensaje(id,fiscal)
+    EnviarMensaje(total,fiscal)
+    RecibirMensaje(activo,fiscal)
   fin
 variables
   fiscal : fiscalizador
