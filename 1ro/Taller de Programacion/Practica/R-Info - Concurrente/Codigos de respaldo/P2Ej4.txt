@@ -11,3 +11,69 @@ esquina (50,50).
 
 El robot fiscalizador inicia en la esquina (1,1) y los robots recolectores inician en las
 esquinas (25,1) (30,1) (35,1) y (40,1) respectivamente
+
+programa p2ej4
+procesos
+  proceso activarRobot
+  variables
+    id:numero
+  comenzar
+    repetir 10
+      Random(id,1,4)
+      si (id = 1)
+        EnviarMensaje(V,r1)
+      sino
+        si (id = 2)
+          EnviarMensaje(V,r2)
+        sino
+          si (id = 3)
+            EnviarMensaje(V,r3)
+          sino
+            si (id = 4)
+              EnviarMensaje(V,r4)
+  fin
+  proceso recolectarTodo (ES total:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      total := total + 1
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      total := total + 1
+  fin
+areas
+  af : AreaP (1,1,1,1)
+  cuadrante (25,25,75,75)
+robots
+  robot fiscalizador
+  variables
+    id,ganador,total:numero
+  comenzar
+    EnviarMensaje (1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+    EnviarMensaje(4,r4)
+    activarRobots
+  fin
+  robot recolector
+  variables
+    id,total:numero
+    av,ca:numero
+  comenzar
+    RecibirMensaje(id,fiscal)
+    Random(av,25,75)
+    Random(ca,25,75)
+    Pos(av,ca)
+    recolectarTodo(total)
+  fin
+variables
+  fiscal : fiscalizador
+  r1,r2,r3,r4: recolector
+comenzar
+  AsignarArea(fiscal,af)
+  AsignarArea(r1,cuadrante)
+  AsignarArea(r2,cuadrante)
+  AsignarArea(r3,cuadrante)
+  AsignarArea(r4,cuadrante)
+  Iniciar(fiscal,1,1)
+fin
