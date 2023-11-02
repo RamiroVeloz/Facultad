@@ -1,3 +1,4 @@
-o Pueden los robots chocar en la misma esquina si uno antes la bloqueo?
+o que tareas se deben modularizar y cuales no?
+o si un robot tiene que avisar que termino una tarea, debe mandar un booleano o es correcto usar su id para anunciar ese evento?
 
 
