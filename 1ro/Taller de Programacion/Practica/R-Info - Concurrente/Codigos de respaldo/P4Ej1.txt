@@ -56,7 +56,7 @@ robots
   comenzar
     RecibirMensaje(id,s)
     estado := V
-    mientras(estado)
+    mientras(estado & PosCa < 100)
       av:= PosAv
       ca:= PosCa
       act := 0
