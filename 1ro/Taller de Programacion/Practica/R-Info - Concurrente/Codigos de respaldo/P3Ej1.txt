@@ -1,0 +1,100 @@
+1- Realice un programa con 2 robots recolectores de flores (floreros) y 2 robots recolectores
+de papeles (papeleros).
+Los floreros comparten área y tienen 5 intentos cada uno para juntar las flores de una
+esquina, dentro de dicha área, elegida al azar en cada intento. Del mismo modo, los
+papeleros comparten área y tienen 3 intentos cada uno para juntar los papeles. En cada
+intento cada robot va a la esquina al azar, junta todos los elementos (flores o papeles según
+le corresponda) y vuelve a su esquina original. Al finalizar sus intentos cada robot debe
+acceder a la esquina (10, 10) y depositar los elementos recogidos de a uno.
+- Área de floreros: (1,1) a (5, 10)
+- Área de papeleros: (6, 1) a (10, 9)
+- Esquinas de inicio de floreros: (6,10) y (7,10)
+- Esquinas de inicio de papeleros: (8,10) y (9,10)
+
+
+programa p3ej1
+procesos
+  proceso recolectarFlores
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+  proceso recolectarPapeles
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+  fin
+areas
+  areaDepo : AreaC (10,10,10,10)
+  af1: AreaP (6,10,6,10)
+  af2: AreaP (7,10,7,10)
+  ap1: AreaP (8,10,8,10)
+  ap2: AreaP (9,10,9,10)
+  areaFloreros : AreaPC (1,1,5,10)
+  areaPapeleros : AreaPC (6,1,10,9)
+robots
+  robot florero
+  variables
+    av,ca:numero
+    ai,ci:numero
+  comenzar
+    ai := PosAv
+    ci := PosCa
+    repetir 5
+      Random(av,1,5)
+      Random(ca,1,10)
+      BloquearEsquina(av,ca)
+      Pos(av,ca)
+      recolectarFlores
+      Pos(ai,ci)
+      LiberarEsquina(av,ca)
+    mientras (HayFlorEnLaBolsa)
+      BloquearEsquina(10,10)
+      Pos(10,10)
+      depositarFlor
+      Pos(ai,ci)
+      LiberarEsquina(10,10)
+  fin
+  robot papelero
+  variables
+    av,ca:numero
+    ai,ci:numero
+  comenzar
+    ai := PosAv
+    ci := PosCa
+    repetir 3
+      Random(av,6,10)
+      Random(ca,1,9)
+      BloquearEsquina(av,ca)
+      Pos(av,ca)
+      recolectarPapeles
+      Pos(ai,ci)
+      LiberarEsquina(av,ca) 
+    mientras (HayPapelEnLaBolsa)
+      BloquearEsquina(10,10)
+      Pos(10,10)
+      depositarPapel
+      Pos(ai,ci)
+      LiberarEsquina(10,10)
+  fin
+variables
+  f1,f2:florero
+  p1,p2:papelero
+comenzar
+  AsignarArea(f1,af1)
+  AsignarArea(f2,af2)
+  AsignarArea(p1,ap1)
+  AsignarArea(p2,ap2)
+  AsignarArea(f1,areaDepo)
+  AsignarArea(f2,areaDepo)
+  AsignarArea(p1,areaDepo)
+  AsignarArea(p2,areaDepo)
+  AsignarArea(f1,areaFloreros)
+  AsignarArea(f2,areaFloreros)
+  AsignarArea(p1,areaPapeleros)
+  AsignarArea(p2,areaPapeleros)
+  Iniciar(f1,6,10)
+  Iniciar(f2,7,10)
+  Iniciar(p1,8,10)
+  Iniciar(p2,9,10)
+fin
