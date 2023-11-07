@@ -27,7 +27,7 @@ procesos
   comenzar
     repetir cantFlores
       depositarFlor
-    repetir CantPapeles
+    repetir cantPapeles
       depositarPapel
     cantFlores := 0
     cantPapeles := 0
@@ -59,8 +59,10 @@ robots
         EnviarMensaje(tarea,t2)
         EnviarMensaje(av,t2)
         EnviarMensaje(ca,t2)
-      RecibirMensaje(e1,*)
-      RecibirMensaje(e2,*)
+      si (id = 1)
+        RecibirMensaje(e1,t1)
+      sino
+        RecibirMensaje(e2,*)
     tarea := 4
     EnviarMensaje(tarea,t1)
     EnviarMensaje(tarea,t2)
@@ -72,9 +74,9 @@ robots
     ai,ci:numero
     cantFlores,cantPapeles:numero
   comenzar
-    RecibirMensaje(id,j)
     ai:= PosAv
     ci := PosCa
+    RecibirMensaje(id,j)
     RecibirMensaje(tarea,j)
     mientras(tarea <> 4)
       RecibirMensaje(av,j)
