@@ -1,9 +1,34 @@
 programa p4Ej4
 procesos
+  proceso tareaUno (ES cantFlores:numero)
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+      cantFlores := cantFlores + 1
+  fin
+  proceso tareaDos (ES cantPapeles:numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      cantPapeles := cantPapeles + 1
+  fin
 areas
   aj : AreaP(1,1,1,1)
   cuadrante : AreaC (2,2,100,100)
 robots
+  robot jefe
+  variables
+    id:numero
+  comenzar
+    EnviarMensaje(1,t1)
+    EnviarMensaje(2,t2)
+  fin
+  robot trabajador
+  variables
+    id:numero
+  comenzar
+    RecibirMensaje(id,j)
+  fin
 variables
   j:jefe
   t1,t2: trabajador
