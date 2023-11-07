@@ -1,5 +1,16 @@
 programa p4Ej4
 procesos
+  proceso trabajar (E tarea:numero; ES cantFlores:numero ; ES cantPapeles:numero)
+  comenzar
+    si (tarea = 1)
+      tareaUno(cantFlores)
+    sino
+      si (tarea = 2)
+        tareaDos(cantPapeles)
+      sino
+        si (tarea = 3)
+          tareaTres(cantFlores,cantPapeles)
+  fin
   proceso tareaUno (ES cantFlores:numero)
   comenzar
     mientras (HayFlorEnLaEsquina)
@@ -11,6 +22,15 @@ procesos
     mientras(HayPapelEnLaEsquina)
       tomarPapel
       cantPapeles := cantPapeles + 1
+  fin
+  proceso tareaTres (ES cantFlores:numero; ES cantPapeles:numero)
+  comenzar
+    repetir cantFlores
+      depositarFlor
+    repetirCantPapeles
+      depositarPapel
+    cantFlores := 0
+    cantPapeles := 0
   fin
 areas
   aj : AreaP(1,1,1,1)
