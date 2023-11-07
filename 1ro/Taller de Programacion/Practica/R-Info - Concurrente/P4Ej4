@@ -1,0 +1,17 @@
+programa p4Ej4
+procesos
+areas
+  aj : AreaP(1,1,1,1)
+  cuadrante : AreaC (2,2,100,100)
+robots
+variables
+  j:jefe
+  t1,t2: trabajador
+comenzar
+  AsignarArea(j,aj)
+  AsignarArea(t1,cuadrante)
+  AsignarArea(t2,cuadrante)
+  Iniciar(j,1,1)
+  Iniciar(t1,2,1)
+  Iniciar(t2,3,1)
+fin
