@@ -1,0 +1,116 @@
+programa p3ej4
+procesos
+  proceso recolectarFlor (ES estado:boolean)
+  comenzar
+    si (HayFlorEnLaEsquina)
+      tomarFlor
+      estado := V
+    sino
+      estado := F
+  fin
+areas
+  areaRecoleccion : AreaPC (10,10,10,10)
+  areaDeposito : AreaPC (11,11,11,11)
+  areaCoordinador : AreaP (1,1,1,1)
+  a1: AreaP (9,9,9,9)
+  a2: AreaP (9,10,9,10)
+  a3: AreaP (9,11,9,11)
+  a4: AreaP (9,12,9,12)
+robots
+  robot coordinador
+  variables
+    id:numero
+    ultimo : numero
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+    EnviarMensaje(4,r4)
+    repetir 4
+      RecibirMensaje(id,*)
+      si (id =1)
+        ultimo := id
+      sino  
+        si (id =2)
+          ultimo := id
+        sino
+          si (id = 3)
+            ultimo := id
+          sino
+            ultimo := 4
+    si (ultimo = 1)
+      EnviarMensaje(V,r1)
+      EnviarMensaje(F,r2)
+      EnviarMensaje(F,r3)
+      EnviarMensaje(F,r4)
+    sino
+      si (id = 2)
+        EnviarMensaje(F,r1)
+        EnviarMensaje(V,r2)
+        EnviarMensaje(F,r3)
+        EnviarMensaje(F,r4)
+      sino
+        si (id = 3)
+          EnviarMensaje(F,r1)
+          EnviarMensaje(F,r2)
+          EnviarMensaje(V,r3)
+          EnviarMensaje(F,r4)
+        sino
+          EnviarMensaje(F,r)
+          EnviarMensaje(F,r)
+          EnviarMensaje(F,r)
+          EnviarMensaje(V,r)
+  fin
+  robot recolector
+  variables
+    id,ai,ci:numero
+    estado : boolean
+  comenzar
+    RecibirMensaje(id,c)
+    ai := PosAv
+    ci := PosCa
+    estado := V
+    mientras (estado)
+      BloquearEsquina(10,10)
+      Pos(10,10)
+      recolectarFlor(estado)
+      si (estado)
+        BloquearEsquina(11,11)
+        Pos(11,11)
+        LiberarEsquina(10,10)
+        depositarFlor
+        Pos(ai,ci)
+        LiberarEsquina(11,11)
+      sino
+        Pos(ai,ci)
+        LiberarEsquina(10,10)
+    EnviarMensaje(id,c)
+    RecibirMensaje(estado,c)
+    si (estado = V)
+      Pos(11,11)
+      mientras(HayFlorEnLaEsquina)
+        tomarFlor
+  fin
+variables
+  c:coordinador
+  r1,r2,r3,r4: recolector
+comenzar
+  AsignarArea(c,areaCoordinador)
+  AsignarArea(r1,areaRecoleccion)
+  AsignarArea(r2,areaRecoleccion)
+  AsignarArea(r3,areaRecoleccion)
+  AsignarArea(r4,areaRecoleccion)
+  AsignarArea(r1,areaDeposito)
+  AsignarArea(r2,areaDeposito)
+  AsignarArea(r3,areaDeposito)
+  AsignarArea(r4,areaDeposito)
+  AsignarArea(r1,a1)
+  AsignarArea(r2,a2)
+  AsignarArea(r3,a3)
+  AsignarArea(r4,a4)
+  Iniciar(c,1,1)
+  Iniciar(r1,9,9)
+  Iniciar(r2,9,10)
+  Iniciar(r3,9,11)
+  Iniciar(r4,9,12)
+fin

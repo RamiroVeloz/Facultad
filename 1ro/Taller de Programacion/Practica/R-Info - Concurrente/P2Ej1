@@ -1,0 +1,74 @@
+programa p2ej1
+procesos
+  proceso recolectarFlores (ES cantFlores:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      cantFlores := cantFlores + 1
+  fin
+  proceso recorridoRecolecta (ES cantFlores:numero)
+  comenzar
+    repetir 9
+      recolectarFlores(cantFlores)
+      mover
+    recolectarFlores(cantFlores)
+  fin 
+areas
+  areaFiscal : AreaP (2,1,2,1)
+  r1a : AreaP (1,1,1,10)
+  r2a : AreaP (2,11,2,20)
+robots
+  robot fiscalizador
+  variables
+    res1,res2:numero
+    id,dif:numero
+  comenzar
+    EnviarMensaje (1,f1)
+    EnviarMensaje (2,f2)
+    repetir 2
+      RecibirMensaje (id,*)
+      si (id = 1 )
+        RecibirMensaje(res1,f1)
+      si (id = 2)
+        RecibirMensaje(res2,f2)
+    si ( res1 > res2 )
+      dif := res1 - res2
+      Informar(dif)
+    sino
+      dif := res2 - res1
+      Informar(dif)
+  fin
+  robot r1
+  variables
+    id,cantFlores : numero
+    contra,dif : numero
+  comenzar
+    RecibirMensaje(id,fiscal)
+    cantFlores := 0
+    recorridoRecolecta (cantFlores)
+    EnviarMensaje(id,fiscal)
+    EnviarMensaje(cantFlores,fiscal)
+  fin
+  robot r2
+  variables
+    id,cantFlores : numero
+    contra,dif : numero
+  comenzar
+    RecibirMensaje(id,fiscal)
+    cantFlores := 0
+    recorridoRecolecta (cantFlores)
+    EnviarMensaje(id,fiscal)
+    EnviarMensaje(cantFlores,fiscal)
+  fin
+variables
+  fiscal : fiscalizador
+  f1 : r1
+  f2 : r2
+comenzar
+  AsignarArea(fiscal,areaFiscal)
+  AsignarArea(f1,r1a)
+  AsignarArea(f2,r2a)
+  Iniciar(fiscal,2,1)
+  Iniciar(f1,1,1)
+  Iniciar(f2,2,11)
+fin

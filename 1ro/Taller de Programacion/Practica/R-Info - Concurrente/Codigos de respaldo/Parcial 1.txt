@@ -1,0 +1,144 @@
+Existen tres robots trabajadores y un coordinador.
+Los robots trabajadores deben recorrer el perímetro de su cuadrado asignado, recolectando todas las flores
+Durante el recorrido, los robots deben procesar los lados de forma coordinada, esto es: podran comenzar a
+recorrer un nuevo lado cuando todos los trabajadores completaron el lado anterior.
+Para coordinarse serán ayudados por el robot coordinador, quien además deberá determinar e informar cual
+fue el robot ganador, es decir el que juntó más flores en todo su recorrido.
+Aquellos trabajadores que no ganaron deben dejar todas las flores recolectadas, de a una en (10,10)
+- El área del trabajador 1 es (1,1,6,6) — e inicia en (1,1)
+- El área del trabajador 2 es (7,1,12,6) e inicia en (7,1)
+- El área del trabajador 3 es (13,1,18,6) e inicia en (13,1)
+- El coordinador inicia en (20,1)
+
+
+programa parcial1
+procesos
+  proceso dejarTodo (E cant:numero)
+  comenzar
+    repetir cant
+      depostiarFlor
+  fin
+  proceso noGanadores (E ganador:numero)
+  comenzar
+    si (ganador = 1)
+      EnviarMensaje(F,t1)
+      EnviarMensaje(V,t2)
+      EnviarMensaje(V,t3)
+    sino
+      si (ganador = 2)
+        EnviarMensaje(V,t1)
+        EnviarMensaje(F,t2)
+        EnviarMensaje(V,t3)
+      sino
+        EnviarMensaje(V,t1)
+        EnviarMensaje(V,t2)
+        EnviarMensaje(F,t3)
+  fin
+  proceso recolectarFlores (ES cant:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      cant:= cant + 1
+  fin
+  proceso recta (E pasos:numero; ES cant:numero)
+  comenzar
+    repetir pasos
+      recolectarFlores(cant)
+      mover
+  fin
+  proceso asignarIds
+  comenzar
+    EnviarMensaje(1,t1)
+    EnviarMensaje(2,t2)
+    EnviarMensaje(3,t3)
+  fin
+  proceso enviarEstados(E estado:boolean)
+  comenzar
+    EnviarMensaje(estado,t1)
+    EnviarMensaje(estado,t2)
+    EnviarMensaje(estado,t3)
+  fin
+areas
+  a1 : AreaP (1,1,6,6)
+  a2 : AreaP (7,1,12,6)
+  a3 : AreaP (13,1,18,6)
+  ac : AreaP (20,1,20,1)
+  depo : AreaPC(10,10,10,10)
+robots
+  robot coordinador
+  variables
+    id,cant:numero
+    vueltas : numero
+    estado:boolean
+    max,ganador:numero
+  comenzar
+    max:=0
+    ganador:= 0
+    asignarIds
+    vueltas := 0
+    mientras (vueltas <> 4)
+      cant := 0
+      enviarEstados(V)
+      mientras(cant <> 3)
+        RecibirMensaje(estado,*)
+        si (estado)
+          cant:= cant + 1
+      vueltas := vueltas + 1
+    enviarEstados(F)
+    repetir 3
+      RecibirMensaje(id,*)
+      si (id = 1)
+        RecibirMensaje(cant,t1)
+      sino
+        si (id = 2)
+          RecibirMensaje(cant,t2)
+        sino
+          RecibirMensaje(cant,t3)
+      si (cant > max)
+        max := cant
+        ganador:= id
+    Informar(ganador)
+    noGanadores (ganador)
+  fin
+  robot trabajador
+  variables
+    id,cant:numero
+    estado:boolean
+    ai,ci:numero
+  comenzar
+    RecibirMensaje(id,c)
+    RecibirMensaje(estado,c)
+    ai := PosAv
+    ci := PosCa
+    mientras(estado)
+      recta(5,cant)
+      derecha
+      EnviarMensaje(V,c)
+      RecibirMensaje(estado,c)
+    EnviarMensaje(id,c)
+    EnviarMensaje(cant,c)
+    RecibirMensaje(estado,c)
+    si (estado)
+      repetir cant
+        BloquearEsquina(10,10)
+        Pos(10,10)
+        depositarFlor
+        Pos(ai,ci)
+        LiberarEsquina(10,10)
+  fin
+variables
+  t1,t2,t3: trabajador
+  c:coordinador
+comenzar
+  AsignarArea(c,ac)
+  AsignarArea(t1,a1)
+  AsignarArea(t2,a2)
+  AsignarArea(t3,a3)
+  AsignarArea(t1,depo)
+  AsignarArea(t2,depo)
+  AsignarArea(t3,depo)
+  Iniciar(c,20,1)
+  Iniciar(t1,1,1)
+  Iniciar(t2,7,1)
+  Iniciar(t3,13,1)
+fin

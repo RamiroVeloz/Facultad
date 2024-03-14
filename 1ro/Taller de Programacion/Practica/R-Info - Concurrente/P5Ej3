@@ -1,0 +1,102 @@
+programa p5ej3
+procesos
+  proceso dejarFlores (E af:numero; E cf:numero;E ad:numero; E cd : numero ; ES act : numero)
+  comenzar
+    BloquearEsquina(ad,cd)
+    Pos(ad,cd)
+    repetir act
+      depositarFlor
+    act := 0
+    Pos(af,cf)
+    LiberarEsquina(ad,cd)
+  fin
+  proceso recibirMensajes(E id:numero; ES estado:boolean)
+  comenzar
+    si (id =1 )
+      RecibirMensaje(estado,r2)
+    sino
+      RecibirMensaje(estado,r1)
+  fin
+  proceso recolectarFlores (ES cantFlores:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina) & (cantFlores <> 10)
+      tomarFlor
+      cantFlores := cantFlores + 1
+  fin
+areas
+  a1 : AreaP (1,3,100,3)
+  a2 : AreaP (1,4,100,4)
+  ac : AreaP (1,5,1,5)
+  depo : AreaPC (10,10,10,10)
+robots
+  robot cosechador
+  variables
+    ai,ci:numero
+    ad,cd:numero
+    cant,terminados:numero
+    e1,e2:boolean
+  comenzar
+    terminados := 0
+    cant := 0
+    ad:=10
+    cd := 10
+    ai := PosAv
+    ci := PosCa
+    RecibirMensaje(e1, *)
+    RecibirMensaje(e2,*)
+    mientras(terminados <> 2)
+      si (e1 = F )
+        terminados := terminados + 1
+      si (e2 = F)
+        terminados := terminados + 1
+      BloquearEsquina(ad,cd)
+      Pos(ad,cd)
+      recolectarFlores(cant)
+      Pos(ai,ci)
+      LiberarEsquina(ad,cd)
+      RecibirMensaje(e1,*)
+      RecibirMensaje(e2,*)
+    Informar(cant)
+  fin
+  robot recolector
+  variables
+    act,pasos:numero
+    af,cf:numero
+    ad,cd:numero
+  comenzar
+    ad := 10
+    cd := 10
+    derecha
+    mientras( PosAv < 100 )
+      pasos := 0
+      act := 0
+      recolectarFlores(act)
+      mientras(PosAv < 100)&(act <> 10)&(pasos <> 5)
+        mover
+        recolectarFlores(act)
+        pasos := pasos + 1
+      si (act <> 10) & (HayFlorEnLaEsquina)
+        recolectarFlores(act)
+      af := PosAv
+      cf := PosCa
+      si (act <> 0)
+        dejarFlores (af,cf,ad,cd,act)
+        EnviarMensaje(V,c)
+    si (PosAv = 100)
+      EnviarMensaje(V,c)
+    EnviarMensaje(F,c)
+  fin
+variables
+  c:cosechador
+  r1,r2:recolector
+comenzar
+  AsignarArea(r1,a1)
+  AsignarArea(r2,a2)
+  AsignarArea(c,ac)
+  AsignarArea(r1,depo)
+  AsignarArea(r2,depo)
+  AsignarArea(c,depo)
+  Iniciar(c,1,5)
+  Iniciar(r1,1,3)
+  Iniciar(r2,1,4)
+fin

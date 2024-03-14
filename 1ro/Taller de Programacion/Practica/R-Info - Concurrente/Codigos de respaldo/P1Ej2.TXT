@@ -1,0 +1,75 @@
+2) Realice un programa en el que 4 robots limpien de papeles el perímetro de un cuadrado de lado
+20 en sentido horario.
+
+El vértice inferior izquierdo del cuadrado se ubica en la esquina (10,10).
+
+Al finalizar, cada robot debe informar la cantidad de papeles juntados en su lado.
+
+Al realizar este programa, analizar:
+
+a) ¿Cómo deben declararse la o las áreas?
+
+b) ¿Existe riesgo de colisión?
+
+programa p1ej2
+procesos
+  proceso acomodar (E cant:numero)
+  comenzar
+    repetir cant
+      derecha
+  fin
+  proceso recolectarPapeles (ES cantPapeles:numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      cantPapeles := cantPapeles + 1
+  fin
+  proceso limpiarPerimetro
+  variables
+    cantPapeles:numero
+  comenzar
+    cantPapeles := 0
+    repetir 4
+      repetir 20
+        recolectarPapeles(cantPapeles)
+        mover
+      derecha
+    Informar(cantPapeles)
+  fin
+areas
+  cuadrado : AreaC (10,10,30,30)
+robots
+  robot p1
+  comenzar
+    limpiarPerimetro
+  fin
+  robot p2
+  comenzar
+    acomodar(1)
+    limpiarPerimetro
+  fin
+  robot p3
+  comenzar
+    acomodar(2)
+    limpiarPerimetro
+  fin
+  robot p4
+  comenzar
+    acomodar(3)
+    limpiarPerimetro
+  fin
+variables
+  r1 : p1
+  r2 : p2
+  r3 : p3
+  r4 : p4
+comenzar
+  AsignarArea(r1,cuadrado)
+  AsignarArea(r2,cuadrado)
+  AsignarArea(r3,cuadrado)
+  AsignarArea(r4,cuadrado)
+  Iniciar(r1,10,10)
+  Iniciar(r2,10,30)
+  Iniciar(r3,30,30)
+  Iniciar(r4,30,10)
+fin

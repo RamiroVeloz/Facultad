@@ -1,0 +1,155 @@
+programa p3ej2
+procesos
+  proceso recta (E cant : numero)
+  comenzar
+    repetir cant
+      mover
+  fin
+  proceso frenteFlores (E cant : numero; ES cantFlores:numero)
+  comenzar
+    repetir 4
+      recta (cant)
+      recolectarFlores(cantFlores)
+      derecha
+      recta(cant)
+      recolectarFlores(cantFlores)
+      acomodar
+      cant := cant - 1
+  fin
+  proceso frentePapeles (E cant:numero; ES cantPapeles:numero)
+  comenzar
+    repetir 4
+      recta (cant)
+      recolectarPapeles(cantPapeles)
+      acomodar
+      recta(cant)
+      recolectarPapeles(cantPapeles)
+      derecha
+      cant := cant - 1
+  fin
+  proceso espejoFlores( E cant: numero; ES cantFlores:numero)
+  comenzar
+    repetir 4
+      recta (cant)
+      recolectarFlores(cantFlores)
+      derecha
+      recta (cant)
+      recolectarFlores(cantFlores)
+      acomodar
+      cant := cant + 1
+  fin
+  proceso espejoPapeles (E cant:numero; ES cantPapeles:numero)
+  comenzar
+    repetir 4
+      recta(cant)
+      recolectarPapeles(cantPapeles)
+      acomodar
+      recta(cant)
+      recolectarPapeles(cantPapeles)
+      derecha
+      cant:= cant + 1
+  fin
+  proceso ultimoEscalonFlores(E id :numero ;ES cantFlores:numero)
+  comenzar
+    recta(1)
+    recolectarFlores(cantFlores)
+    derecha
+    BloquearEsquina(16,16)
+    recta (1)
+    recolectarFlores(cantFlores)
+    EnviarMensaje(id,fiscal)
+    derecha
+    derecha
+    mover
+    LiberarEsquina(16,16)
+  fin
+  proceso ultimoEscalonPapeles( E id:numero; ES cantPapeles:numero)
+  comenzar
+    recta(1)
+    recolectarPapeles(cantPapeles)
+    acomodar
+    BloquearEsquina(16,16)
+    recta(1)
+    recolectarPapeles(cantPapeles)
+    EnviarMensaje(id,fiscal)
+    derecha
+    derecha
+    mover
+    LiberarEsquina(16,16)
+  fin
+  proceso acomodar
+  comenzar
+    repetir 3
+      derecha
+  fin
+  proceso recolectarFlores (ES cantFlores:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      cantFlores := cantFlores + 1
+  fin
+  proceso recolectarPapeles (ES cantPapeles:numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      cantPapeles := cantPapeles + 1
+  fin
+areas
+  ciudad : AreaC (1,1,100,100)
+robots
+  robot fiscalizador
+  variables
+    pri,seg:numero
+    f1,f2:boolean
+  comenzar
+    EnviarMensaje(1,flo)
+    EnviarMensaje(2,pap)
+    RecibirMensaje(pri,*)
+    RecibirMensaje(seg,*)
+    RecibirMensaje(f1,*)
+    RecibirMensaje(f2,*)
+    si (f1 = V & f2 = V)
+      Informar(pri)
+  fin
+  robot florero
+  variables
+    id,cant : numero
+    cantFlores : numero
+  comenzar
+    RecibirMensaje(id, fiscal)
+    cantFlores := 0
+    cant := 5
+    frenteFlores(cant,cantFlores)
+    ultimoEscalonFlores(id,cantFlores)
+    cant := 2
+    espejoFlores(cant,cantFlores)
+    Informar(cantFlores)
+    EnviarMensaje(V,fiscal)
+  fin
+  robot papelero
+  variables
+    id,cant : numero
+    cantPapeles:numero
+  comenzar
+    RecibirMensaje(id,fiscal)
+    cantPapeles := 0
+    cant := 5
+    frentePapeles(cant,cantPapeles)
+    ultimoEscalonPapeles(id,cant)
+    cant := 2
+    espejoPapeles(cant,cantPapeles)
+    Informar(cantPapeles)
+    EnviarMensaje(V,fiscal)
+  fin
+variables
+  fiscal : fiscalizador
+  flo : florero
+  pap : papelero
+comenzar
+  AsignarArea (fiscal,ciudad)
+  AsignarArea(flo,ciudad)
+  AsignarArea(pap,ciudad)
+  Iniciar(fiscal,15,1)
+  Iniciar(flo,1,1)
+  Iniciar(pap,31,1)
+fin
