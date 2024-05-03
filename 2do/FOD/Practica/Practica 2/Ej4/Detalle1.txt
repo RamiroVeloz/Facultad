@@ -1,0 +1,76 @@
+Buenos Aires
+1
+2
+3
+Buenos Aires
+2
+2
+3
+Córdoba
+1
+2
+3
+Córdoba
+2
+2
+3
+Santa Fe
+1
+2
+3
+Santa Fe
+2
+2
+3
+Mendoza
+1
+2
+3
+Mendoza
+2
+2
+3
+Tucumán
+2
+2
+3
+Chubut
+1
+2
+3
+Chubut
+2
+2
+3
+Salta
+1
+2
+3
+Salta
+2
+2
+3
+Entre Ríos
+1
+2
+3
+Entre Ríos
+2
+1
+2
+Jujuy
+1
+5
+6
+Jujuy
+2
+3
+4
+La Pampa
+1
+3
+4
+La Pampa
+2
+4
+5

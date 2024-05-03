@@ -1,0 +1,30 @@
+Buenos Aires
+120
+150
+Cordoba
+90
+110
+Santa Fe
+80
+100
+Mendoza
+150
+180
+Tucuman
+60
+70
+Chubut
+110
+130
+Salta
+70
+90
+Entre Rios
+100
+120
+Jujuy
+85
+100
+La Pampa
+95
+110
