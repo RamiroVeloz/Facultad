@@ -1,0 +1,136 @@
+Realice un programa en el que un robot fiscalizador controla el acceso de 4 robots
+recolectores al cuadrante encerrado entre las esquinas (25,25) y (75,75) . Para ello, el
+robot fiscalizador avisa a un robot recolector aleatorio que puede ingresar al área. El
+robot que recibe la autorización de acceso calcula una esquina aleatoria dentro del
+área, limpia dicha esquina de flores y papeles, regresa a su esquina y avisa al robot
+fiscalizador que ya finalizó.
+
+Se realizarán en total 10 accesos al cuadrante entre los 4 robots recolectores. Al
+finalizar, el robot fiscalizador deberá indicar al robot ganador que se posicione en la
+esquina (50,50).
+
+El robot fiscalizador inicia en la esquina (1,1) y los robots recolectores inician en las
+esquinas (25,1) (30,1) (35,1) y (40,1) respectivamente
+
+programa p2ej4
+procesos
+  proceso calcularMaximo (ES ganador:numero; ES id:numero ; ES cant:numero; ES max:numero)
+  comenzar
+    si (cant > act)
+      act := cant
+      ganador:= id
+  fin
+  proceso confirmarGanador (E ganador:numero ; E max:numero)
+  comenzar
+    si ( ganador = 1 )
+  fin
+  proceso activarRobots
+  variables
+    id:numero
+    estado:boolean
+  comenzar
+    repetir 10
+      Random(id,1,4)
+      si (id = 1)
+        EnviarMensaje(V,r1)
+      sino
+        si (id = 2)
+          EnviarMensaje(V,r2)
+        sino
+          si (id = 3)
+            EnviarMensaje(V,r3)
+          sino
+            si (id = 4)
+              EnviarMensaje(V,r4)
+      RecibirMensaje(estado,*)
+  fin
+  proceso desactivarRobots
+  comenzar
+    EnviarMensaje(F,r1)
+    EnviarMensaje(F,r2)
+    EnviarMensaje(F,r3)
+    EnviarMensaje(F,r4)
+  fin
+  proceso recolectarTodo (ES total:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      total := total + 1
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      total := total + 1
+  fin
+areas
+  af : AreaP (1,1,1,1)
+  a1 : AreaP (25,1,25,1)
+  a2 : AreaP (30,1,30,1)
+  a3 : AreaP (35,1,35,1)
+  a4 : AreaP (40,1,40,1)
+  cuadrante : AreaC (25,25,75,75)
+robots
+  robot fiscalizador
+  variables
+    id,ganador,total,cant,max:numero
+  comenzar
+    EnviarMensaje (1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+    EnviarMensaje(4,r4)
+    activarRobots
+    desactivarRobots
+    repetir 4
+      RecibirMensaje(id,*)
+      si (id = 1)
+        RecibirMensaje(cant,r1)
+      sino
+        si (id = 2)
+          RecibirMensaje(cant,r2)
+        sino
+          si (id = 3)
+            RecibirMensaje(cant,r3)
+          sino
+            RecibirMensaje(cant,r4)
+      calcularMaximo(ganador,id,cant,max)
+    confirmarGanador(ganador,max)
+  fin
+  robot recolector
+  variables
+    id,total:numero
+    av,ai,ca,ci:numero
+    activo: boolean
+  comenzar
+    ai := PosAv
+    ci := PosCa
+    RecibirMensaje(id,fiscal)
+    RecibirMensaje(activo,fiscal)
+    mientras(activo)
+      Random(av,25,75)
+      Random(ca,25,75)
+      Pos(av,ca)
+      recolectarTodo(total)
+      Pos(ai,ci)
+      EnviarMensaje(V,fiscal)
+      RecibirMensaje(activo,fiscal)
+    EnviarMensaje(id,fiscal)
+    EnviarMensaje(total,fiscal)
+    RecibirMensaje(activo,fiscal)
+  fin
+variables
+  fiscal : fiscalizador
+  r1,r2,r3,r4: recolector
+comenzar
+  AsignarArea(fiscal,af)
+  AsignarArea(r1,cuadrante)
+  AsignarArea(r1,a1)
+  AsignarArea(r2,cuadrante)
+  AsignarArea(r2,a2)
+  AsignarArea(r3,cuadrante)
+  AsignarArea(r3,a3)
+  AsignarArea(r4,cuadrante)
+  AsignarArea(r4,a4)
+  Iniciar(fiscal,1,1)
+  Iniciar(r1,25,1)
+  Iniciar(r2,30,1)
+  Iniciar(r3,35,1)
+  Iniciar(r4,40,1)
+fin

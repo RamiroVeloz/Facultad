@@ -1,0 +1,103 @@
+5- Realice un programa en el que 4 robots juegan una carrera por avenidas diferentes: 4, 6,
+8 y 10 respectivamente. Todos los robots inician en la calle 1.
+Para poder avanzar, cada robot debe juntar un papel de una fuente de papeles localizada
+en la esquina (11,11), colocarlo en la esquina actual de su avenida y avanzar un paso.
+Cuando la esquina fuente ya no tiene más papeles, o cuando se haya completado la
+avenida, deberán avisar al robot coordinador y este determinará el robot que llegó más
+lejos.
+
+programa p3ej5
+procesos
+  proceso asignarIds
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+    EnviarMensaje(4,r4)
+  fin
+  proceso recolectarPapel( ES estado : boolean)
+  comenzar
+    si (HayPapelEnLaEsquina)
+      tomarPapel
+      estado := V
+    sino
+      estado := F
+  fin
+areas
+  ac : AreaP (1,1,1,1)
+  a1 : AreaP (4,1,4,100)
+  a2 : AreaP (6,1,6,100)
+  a3 : AreaP (8,1,8,100)
+  a4 : AreaP (10,1,10,100)
+  fuente : AreaC (11,11,11,11)
+robots
+  robot coordinador
+  variables
+    estado:boolean
+    id,ganador,ca,max:numero
+  comenzar
+    asignarIds
+    max := 0
+    ganador := 0  
+    repetir 4
+      RecibirMensaje(id,*)
+      si (id = 1)
+        RecibirMensaje(ca,r1)
+      sino
+        si (id =2)
+          RecibirMensaje(ca,r2)
+        sino
+          si (id =3)
+            RecibirMensaje(ca,r3)
+          sino
+            RecibirMensaje(ca,r4)
+      si (ca > max)
+        ganador := id
+        max := ca
+    Informar(ganador)
+  fin
+  robot corredor
+  variables
+    id:numero
+    av,ca:numero
+    estado:boolean
+  comenzar
+    RecibirMensaje(id,c)
+    av := PosAv
+    ca := PosCa
+    estado := V
+    mientras((estado) & (ca < 100))
+      BloquearEsquina(11,11)
+      Pos(11,11)
+      recolectarPapel(estado)
+      Pos(av,ca)
+      LiberarEsquina(11,11)
+      si (estado)
+        depositarPapel
+        mover
+        av := PosAv
+        ca:= PosCa
+    si((PosCa = 100)&(HayPapelEnLaBolsa))
+      depositarPapel
+    EnviarMensaje(id,c)
+    EnviarMensaje(ca,c)
+  fin
+variables
+  c:coordinador
+  r1,r2,r3,r4 : corredor
+comenzar
+  AsignarArea(c,ac)
+  AsignarArea(r1,a1)
+  AsignarArea(r2,a2)
+  AsignarArea(r3,a3)
+  AsignarArea(r4,a4)
+  AsignarArea(r1,fuente)
+  AsignarArea(r2,fuente)
+  AsignarArea(r3,fuente)
+  AsignarArea(r4,fuente)
+  Iniciar(c,1,1)
+  Iniciar(r1,4,1)
+  Iniciar(r2,6,1)
+  Iniciar(r3,8,1)
+  Iniciar(r4,10,1)
+fin

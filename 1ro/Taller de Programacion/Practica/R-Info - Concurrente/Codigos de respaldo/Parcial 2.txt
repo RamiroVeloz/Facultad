@@ -1,0 +1,45 @@
+programa parcial2
+procesos
+  proceso enviarEstados (E id:numero; E estado:boolean)
+  comenzar
+    si (id = 1 )
+      EnviarMensaje(estado,r2)
+      EnviarMensaje(estado,r3)
+    sino
+      si (id = 2)
+        EnviarMensaje(estado,r1)
+        EnviarMensaje(estado,r3)
+      sino
+        EnviarMensaje(estado,r1)
+        EnviarMensaje(estado,r2)
+  fin
+areas
+  a1 : AreaP (1,1,5,30)
+  a2 : AreaP (8,1,13,30)
+  a3 : AreaP (15,1,20,30)
+  depo : AreaC (50,50,50,50)
+  ac : AreaP (51,1,51,1)
+robots
+  robot coordinador
+  comenzar
+    EnviarMensaje(1,r1)
+    EnviarMensaje(2,r2)
+    EnviarMensaje(3,r3)
+  fin
+  robot
+variables
+  r1,r2,r3:trabajador
+  c:coordinador
+comenzar
+  AsignarArea(c,ac)
+  AsignarArea(r1,a1)
+  AsignarArea(r2,a2)
+  AsignarArea(r3,a3)
+  AsignarArea(r1,depo)
+  AsignarArea(r2,depo)
+  AsignarArea(r3,depo)
+  Iniciar(c,51,1)
+  Iniciar(r1,1,1)
+  Iniciar(r2,8,1)
+  Iniciar(r3,15,1)
+fin

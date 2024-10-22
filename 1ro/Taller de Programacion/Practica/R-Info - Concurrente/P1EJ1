@@ -1,0 +1,49 @@
+programa p1ej1
+procesos
+  proceso recolectarFlores(ES cantFlores:numero ; ES cantVacias:numero)
+  comenzar
+    si(~HayFlorEnLaEsquina)
+      cantVacias := cantVacias + 1
+    sino
+      mientras (HayFlorEnLaEsquina)
+        tomarFlor
+        cantFlores := cantFlores + 1
+  fin
+  proceso depositarFlores (E cantFlores:numero)
+  comenzar
+    mientras (HayFlorEnLaBolsa)
+      depositarFlor
+  fin
+  proceso recorrerAvenida
+  variables
+    cantFlores,cantVacias:numero
+  comenzar
+    cantFlores := 0
+    cantVacias := 0
+    repetir 99
+      recolectarFlores(cantFlores,cantVacias)
+      mover
+    recolectarFlores(cantFlores,cantVacias)
+    depositarFlores(cantFlores)
+    Informar(cantFlores)
+    Informar(cantVacias)
+  fin
+areas
+  cr1 : AreaP (1,1,1,100)
+  cr2 : AreaP (3,1,3,100)
+  cr3 : AreaP (5,1,5,100)
+robots
+  robot florero
+  comenzar
+    recorrerAvenida
+  fin
+variables
+  r1,r3,r5:florero
+comenzar
+  AsignarArea(r1, cr1)
+  AsignarArea(r3, cr2)
+  AsignarArea(r5,cr3)
+  Iniciar(r1, 1,1)
+  Iniciar (r3,3,1)
+  Iniciar(r5,5,1)
+fin

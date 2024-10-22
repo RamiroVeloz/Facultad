@@ -1,0 +1,112 @@
+programa p4ej1
+procesos
+  proceso bolsaVacia 
+  comenzar
+    EnviarMensaje(F,c1)
+    EnviarMensaje(F,c2)
+    EnviarMensaje(F,c3)
+  fin
+  proceso enviarCorrespondiente (E id:numero)
+  comenzar
+    si (id =1)
+      EnviarMensaje(V,c1)
+    sino
+      si (id =2)
+        EnviarMensaje(V,c2)
+      sino
+        EnviarMensaje(V,c3)
+  fin
+  proceso asignarIds
+  comenzar
+    EnviarMensaje(1,c1)
+    EnviarMensaje(2,c2)
+    EnviarMensaje(3,c3)
+  fin
+  proceso recolectarFlores (ES cant:numero)
+  comenzar
+    mientras(HayFlorEnLaEsquina)
+      tomarFlor
+      cant := cant + 1
+  fin
+areas
+  a1 : AreaPC (1,1,1,100)
+  a2 : AreaPC (2,1,2,100)
+  a3 : AreaPC (3,1,3,100)
+  as : AreaP (100,100,100,100)
+robots
+  robot cliente
+  variables
+    id,cant,act: numero
+    av,ca:numero
+    estado:boolean
+  comenzar
+    RecibirMensaje(id,s)
+    estado := V
+    mientras(estado & PosCa < 100)
+      av:= PosAv
+      ca:= PosCa
+      act := 0
+      Random(cant,1,4)
+      EnviarMensaje(id,s)
+      EnviarMensaje(cant,s)
+      EnviarMensaje(av,s)
+      EnviarMensaje(ca,s)
+      RecibirMensaje(estado,s)
+      si (estado)
+        mover
+        recolectarFlores(act)
+        repetir act-1
+          depositarFlor
+          mover
+        depositarFlor 
+  fin
+  robot servidor
+  variables
+    id,act,cant:numero
+    av,ca:numero
+    ai,ci:numero
+    estado:boolean
+  comenzar
+    ai:= PosAv
+    ci:= PosCa
+    asignarIds
+    recolectarFlores(act)
+    estado := V
+    RecibirMensaje(id,*)
+    mientras(estado)
+      RecibirMensaje(cant,*)
+      RecibirMensaje(av,*)
+      RecibirMensaje(ca,*)
+      BloquearEsquina(av,ca+1)
+      Pos(av,ca+1)
+      si (act > cant)
+        repetir cant
+          depositarFlor
+          act := act - 1
+      sino
+        repetir act
+          depositarFlor
+        act := 0
+        estado := F
+      Pos(ai,ci)
+      LiberarEsquina(av,ca+1)
+      enviarCorrespondiente(id)
+      RecibirMensaje(id,*)
+    bolsaVacia
+  fin
+variables
+  s:servidor
+  c1,c2,c3:cliente
+comenzar
+  AsignarArea(c1,a1)
+  AsignarArea(c2,a2)
+  AsignarArea(c3,a3)
+  AsignarArea(s,a1)
+  AsignarArea(s,a2)
+  AsignarArea(s,a3)
+  AsignarArea(s,as)
+  Iniciar(s,100,100)
+  Iniciar(c1,1,1)
+  Iniciar(c2,2,1)
+  Iniciar(c3,3,1)
+fin

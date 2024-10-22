@@ -1,0 +1,17 @@
+Numero de empleado: 1
+Apellido: pablo
+Nombre: perez
+Edad: 23
+DNI: 0
+Numero de empleado: 3
+Apellido: juan
+Nombre: perez
+Edad: 20
+DNI: 0
+Numero de empleado: 5
+Apellido: porrini
+Nombre: porrin
+Edad: 33
+DNI: 0
+Numero de empleado: 6
+Apellido: pe

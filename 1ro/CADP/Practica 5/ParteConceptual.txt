@@ -1,0 +1,26 @@
+1) ¿Qué se define como memoria estática?
+
+    Se refiere a la asignación de memoria para variables que tienen una
+    duración durante toda la ejecución del programa. La asignación de 
+    memoria estática se realiza en tiempo de compilación.
+
+2) ¿Qué se define como memoria dinámica?
+
+    Se refiere a la asignacion y liberacion de memoria durante la ejecucion de un programa.
+
+3) ¿Qué es una variable de tipo puntero?
+
+    Es un tipo de dato simple, definido por el lenguaje, 
+    que permite asignar una direccion de memoria a una variable, en cuya direccion se almacena el dato guardado, que puede ser simple o compuesto. 
+
+4) ¿Qué hace la operación “NEW” aplicada en una variable del tipo puntero?
+
+    La operacion new aplicada a una variable de tipo puntero permite que se asigne memoria dinamica y que se guarde en el puntero la direccion de dicha posicion de memoria.
+
+5) ¿Qué hace la operación “DISPOSE” aplicada en una variable del tipo puntero?
+
+    La operacion Dispose aplicada a un puntero libera la conexión que existe entre la variable y la posición de memoria.
+    Libera la posición de memoria.
+    La memoria liberada puede utilizarse en otro momento del programa.
+    Al utilizar Dispose, se libera la memoria ocupada por el objeto o estructura de datos al que el puntero apunta, 
+    permitiendo que esa memoria pueda ser reutilizada posteriormente en el programa.

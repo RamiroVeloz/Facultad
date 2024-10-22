@@ -1,0 +1,118 @@
+programa P5EJ5
+procesos
+  proceso depositarYVolver (E act:numero; E ai:numero; E ci:numero)
+  comenzar
+    BloquearEsquina(100,1)
+    Pos(100,1)
+    repetir act
+      depositarPapel
+    Pos(ai,ci)
+    LiberarEsquina(100,1)
+  fin
+  proceso recolectarPapeles ( ES cant:numero)
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+      cant:= cant + 1
+  fin
+  proceso tomarYDepositar (E cant:numero; E ai:numero; E ci:numero)
+  comenzar
+    repetir cant
+      BloquearEsquina(100,1)
+      Pos(100,1)
+      tomarPapel
+      Pos(ai,ci)
+      LiberarEsquina(100,1)
+      depositarPapel
+  fin
+  proceso enviarEstado (E id:numero; E estado:boolean; E cant:numero)
+  comenzar
+    si (id =1)
+      EnviarMensaje(cant,c1)
+      EnviarMensaje(estado,c1)
+    sino
+      si (id =2)
+        EnviarMensaje(cant,c2)
+        EnviarMensaje(estado,c2)
+      sino
+        EnviarMensaje(cant,c3)
+        EnviarMensaje(estado,c3)
+  fin
+  proceso asignarIds
+  comenzar
+    EnviarMensaje(1,c1)
+    EnviarMensaje(2,c2)
+    EnviarMensaje(3,c3)
+  fin
+areas
+  depo : AreaC (100,1,100,1)
+  as : AreaP (13,1,13,1)
+  ac1 : AreaP (10,1,10,1)
+  ac2 : AreaP (11,1,11,1)
+  ac3 : AreaP (12,1,12,1) 
+robots
+  robot servidor
+  variables
+    id,terminados:numero
+    cant,act:numero
+    estado:boolean
+    ad,cd:numero
+    ai,ci:numero
+  comenzar
+    ai := PosAv
+    ci := PosCa
+    ad := 100
+    cd := 1
+    asignarIds
+    recolectarPapeles(cant)
+    terminados := 0
+    RecibirMensaje(id,*)
+    RecibirMensaje(estado,*)
+    mientras(terminados <> 3)
+      si (estado)
+        Random(act,1,5)
+        depositarYVolver(act,ai,ci)
+        enviarEstado(id,V,act)
+        RecibirMensaje(id,*)
+        RecibirMensaje(estado,*)
+      sino
+        terminados := terminados + 1
+  fin
+  robot cliente
+  variables
+    id,cant:numero
+    ad,cd:numero
+    ai,ci:numero
+    estado:boolean
+  comenzar
+    RecibirMensaje(id,s)
+    ai := PosAv
+    ci := PosCa
+    ad := 100
+    cd := 1
+    repetir 4
+      EnviarMensaje(id,s)
+      EnviarMensaje(V,s)
+      RecibirMensaje(cant,s)
+      RecibirMensaje(estado,s)
+      si(cant <> 0)
+        tomarYDepositar(cant,ai,ci)
+    EnviarMensaje(F,s)
+  fin
+variables
+  c1,c2,c3:cliente
+  s:servidor
+comenzar
+  AsignarArea(s,as)
+  AsignarArea(s,depo)
+  AsignarArea(c1,depo)
+  AsignarArea(c2,depo)
+  AsignarArea(c3,depo)
+  AsignarArea(c1,ac1)
+  AsignarArea(c2,ac2)
+  AsignarArea(c3,ac3)
+  Iniciar(s,13,1)
+  Iniciar(c1,10,1)
+  Iniciar(c2,11,1)
+  Iniciar(c3,12,1)
+fin

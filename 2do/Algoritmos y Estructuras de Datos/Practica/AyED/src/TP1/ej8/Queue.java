@@ -2,12 +2,13 @@ package TP1.ej8;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sound.midi.Sequence;
 
-public class Queue <T> extends Sequence <T> {
+public class Queue <T> extends Sequence {
 	List <T> data;
 	
+	
 	public Queue () {
-		super();
 		this.data = new ArrayList <T>();
 	}
 	
@@ -16,11 +17,19 @@ public class Queue <T> extends Sequence <T> {
 	}
 	
 	public T dequeue () {
-		return this.data.remove(0);
+		if (this.data.get(0) != null) {
+			return this.data.remove(0);
+		} else {
+			return null;
+		}
 	}
 	
 	public T head() {
-		return this.data.get(0);
+		if (this.data.get(0) != null) {
+			return this.data.get(0);
+		} else {
+			return null;
+		}
 	}
 	
 	public boolean isEmpty () {

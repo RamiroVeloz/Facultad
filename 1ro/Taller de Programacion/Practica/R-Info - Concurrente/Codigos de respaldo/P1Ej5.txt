@@ -1,0 +1,131 @@
+5) Realice un programa en el que cuatro robots realizan las siguientes actividades:
+
+● El robot 1 debe limpiar de flores las primeras 15 esquinas de las calles 75 y 80. Al finalizar
+cada calle, debe depositar todas las flores en la última esquina.
+
+● El robot 2 debe limpiar de papeles las últimas 20 esquinas de las avenidas 75 y 80. Al
+finalizar cada avenida debe depositar todos los papeles en la primera esquina.
+
+● El robot 3 debe limpiar de flores las últimas 30 esquinas de las calles 10 y 15. Al finalizar
+cada calle, debe depositar todas las flores en la última esquina.
+
+● El robot 4 debe limpiar de papeles las primeras 10 esquinas de las avenidas 10 y 15. Al
+finalizar cada avenida debe depositar todos los papeles en la primera esquina
+
+programa p1ej5
+procesos
+  proceso recolectarFlores
+  comenzar
+    mientras (HayFlorEnLaEsquina)
+      tomarFlor
+  fin
+  proceso depositarFlores
+  comenzar
+    mientras(HayFlorEnLaBolsa)
+      depositarFlor
+  fin
+  proceso depositarPapeles
+  comenzar
+    mientras(HayPapelEnLaBolsa)
+      depositarPapel
+  fin
+  proceso recolectarPapeles
+  comenzar
+    mientras(HayPapelEnLaEsquina)
+      tomarPapel
+  fin
+  proceso recorridoFloreros (E av:numero; E ca:numero; E mov:numero)
+  comenzar
+    Pos(av,ca)
+    repetir mov
+      recolectarFlores
+      mover
+    recolectarFlores
+    depositarFlores
+  fin
+  proceso recorridoPapeleros (E av:numero; E ca:numero; E mov:numero)
+  comenzar
+    Pos(av,ca)
+    repetir mov
+      recolectarPapeles
+      mover
+    recolectarPapeles
+    depositarPapeles
+  fin 
+areas
+  r1a1 : AreaP (1,75,15,75)
+  r1a2 : AreaP (1,80,15,80)
+  r2a1 : AreaP (75,80,75,100)
+  r2a2 : AreaP (80,80,80,100)
+  r3a1 : AreaP (70,10,100,10)
+  r3a2 : AreaP (70,15,100,15)
+  r4a1 : AreaP (10,1,10,10)
+  r4a2 : AreaP (15,1,15,10)
+robots 
+  robot r1
+  variables
+    av,ca,mov:numero
+  comenzar
+    derecha
+    av := 1
+    ca := 75
+    mov := 14
+    recorridoFloreros(av,ca, mov)
+    av := 1
+    ca := 80
+    recorridoFloreros(av,ca,mov)
+  fin
+  robot r2
+  variables
+    av,ca,mov:numero
+  comenzar
+    av := 75
+    ca := 80
+    mov := 19
+    recorridoPapeleros (av,ca,mov)
+    av := 80
+    ca := 80
+    recorridoPapeleros(av,ca,mov)
+  fin
+  robot r3
+  variables
+    av,ca,mov:numero
+  comenzar
+    derecha
+    av := 70
+    ca := 10
+    mov := 29
+    recorridoFloreros(av,ca,mov)
+    ca := 15
+    recorridoFloreros(av,ca,mov)
+  fin
+  robot r4
+  variables
+    av,ca,mov:numero
+  comenzar
+    av := 10
+    ca := 1
+    mov := 9
+    recorridoPapeleros(av,ca,mov)
+    av := 15
+    recorridoPapeleros(av,ca,mov)
+  fin
+variables
+  f1 : r1
+  f2 : r3
+  p1 : r2
+  p2 : r4
+comenzar
+  AsignarArea(f1, r1a1)
+  AsignarArea(f1, r1a2)
+  AsignarArea(p1,r2a1)
+  AsignarArea(p1,r2a2)
+  AsignarArea(f2,r3a1)
+  AsignarArea(f2,r3a2)
+  AsignarArea(p2,r4a1)
+  AsignarArea(p2,r4a2)
+  Iniciar(f1,1,75)
+  Iniciar(p1, 75,80)
+  Iniciar(f2,70,10)
+  Iniciar(p2,10,1)
+fin

@@ -1,0 +1,6 @@
+1 2000.00    Samsung
+3 10    rojo
+s24
+2 3000.00    Motorola
+5 15    negro
+g23
