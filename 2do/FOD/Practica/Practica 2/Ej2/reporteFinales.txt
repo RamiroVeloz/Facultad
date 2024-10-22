@@ -1,4 +1,0 @@
-Codigo: 1 Apellido y Nombre: rodriguez pedro  Cantidad de cursadas aprobadas: 2 Cantidad de finales aprobados: 7
-Codigo: 4 Apellido y Nombre: aguirre sara  Cantidad de cursadas aprobadas: 8 Cantidad de finales aprobados: 12
-Codigo: 5 Apellido y Nombre: diaz laura  Cantidad de cursadas aprobadas: 2 Cantidad de finales aprobados: 3
-Codigo: 6 Apellido y Nombre: cardozo valeria  Cantidad de cursadas aprobadas: 1 Cantidad de finales aprobados: 5
