@@ -1,0 +1,36 @@
+
+public class Parcial {
+	
+	
+	public Integer sumaImparesMayorA(ArbolBinario<Integer> a, int limite, int nivel) {
+		ArbolBinario<Integer> arbol = null;
+		int contador =0;
+		int cant=0;
+		ColaGenerica<ArbolBinario<Integer>> cola = new ColaGenerica<ArbolBinario<Integer>>();
+		cola.encolar(a);
+		cola.encolar(null);
+		while(!cola.esVacia()) {
+			arbol = cola.desencolar();
+			if (arbol != null) {
+				if (contador > nivel) {
+					if ((arbol.getDato()% 2) != 0){
+						if(arbol.getDato() > limite){
+							cant += arbol.getDato();
+						} 
+					}
+				}
+				if(arbol.tieneHijoIzquierdo()) {
+					cola.encolar(arbol.getHijoIzquierdo());
+				} 
+				if(arbol.tieneHijoDerecho()) {
+					cola.encolar(arbol.getHijoDerecho());
+				}
+				
+			}else if(!cola.esVacia()){
+				cola.encolar(null);
+				contador++;
+			}
+		}
+		return cant;
+		
+	}
